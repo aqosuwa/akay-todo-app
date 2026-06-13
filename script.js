@@ -6,7 +6,7 @@ const taskList = document.getElementById("taskList");
 const taskCount = document.getElementById("taskCount");
 const emptyMsg = document.getElementById("emptyMsg");
 const filterBtns = document.querySelectorAll(".filter-btn");
-const themeToggle = document.getElementById("themeToggle");
+const priorityInput = document.getElementById("priorityInput");
 
 // ── DATA ─────────────────────────────────────────────────────
 let tasks = [];
@@ -24,12 +24,13 @@ function loadTasks() {
 }
 
 // ── CREATE A TASK OBJECT (now includes due date) ─────────────
-function createTask(text, dueDate) {
+function createTask(text, dueDate, priority) {
   return {
     id: Date.now().toString(),
     text: text,
     completed: false,
     dueDate: dueDate, // empty string if no date chosen
+    priority: priority, // 'low', 'medium', or 'high'
   };
 }
 
@@ -54,6 +55,10 @@ function createTaskElement(task) {
   li.className = "task-item" + (task.completed ? " completed" : "");
   li.dataset.id = task.id;
 
+  // Priority dot — colored circle showing task priority
+  const dot = document.createElement("span");
+  dot.className = "priority-dot " + (task.priority || "low");
+  li.appendChild(dot);
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
@@ -139,9 +144,9 @@ function render() {
 }
 
 // ── ADD TASK (includes due date) ─────────────────────────
-function addTask(text, dueDate) {
+function addTask(text, dueDate, priority) {
   if (!text) return;
-  const newTask = createTask(text, dueDate);
+  const newTask = createTask(text, dueDate, priority);
   tasks.unshift(newTask);
   saveTasks();
   render();
@@ -168,14 +173,16 @@ function toggleComplete(id) {
   }
 }
 
-// ── FORM SUBMIT (now includes due date) ───────────────────────
+// ── FORM SUBMIT (now includes due date and priority) ──────────
 taskForm.addEventListener("submit", function (event) {
   event.preventDefault();
   const text = taskInput.value.trim();
-  const dueDate = dueDateInput.value; // empty string if not set
-  addTask(text, dueDate);
+  const dueDate = dueDateInput.value;
+  const priority = priorityInput.value;
+  addTask(text, dueDate, priority);
   taskInput.value = "";
   dueDateInput.value = "";
+  priorityInput.value = "low";
 });
 
 filterBtns.forEach(function (btn) {

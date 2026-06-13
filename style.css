@@ -190,3 +190,35 @@ body.dark .edit-input {
   color: #eee;
   border-color: #eee;
 }
+/* ── PRIORITY ─────────────────────────────────────────────── */
+#priorityInput {
+  padding: 10px 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+
+body.dark #priorityInput {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+.priority-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.priority-dot.high {
+  background: #e00;
+}
+.priority-dot.medium {
+  background: #f90;
+}
+.priority-dot.low {
+  background: #0a0;
+}
