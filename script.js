@@ -1,6 +1,7 @@
 // ── SELECT ELEMENTS ──────────────────────────────────────────
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
+const dueDateInput = document.getElementById("dueDateInput");
 const taskList = document.getElementById("taskList");
 const taskCount = document.getElementById("taskCount");
 const emptyMsg = document.getElementById("emptyMsg");
@@ -21,12 +22,13 @@ function loadTasks() {
   }
 }
 
-// ── CREATE A TASK OBJECT ─────────────────────────────────────
-function createTask(text) {
+// ── CREATE A TASK OBJECT (now includes due date) ─────────────
+function createTask(text, dueDate) {
   return {
     id: Date.now().toString(),
     text: text,
     completed: false,
+    dueDate: dueDate, // empty string if no date chosen
   };
 }
 
@@ -54,6 +56,15 @@ function createTaskElement(task) {
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
+
+  // If a due date was set, show it next to the task text
+  if (task.dueDate) {
+    const due = document.createElement("span");
+    due.className = "due-date";
+    due.textContent = "Due: " + task.dueDate;
+    span.appendChild(due);
+  }
+
   span.addEventListener("click", function () {
     toggleComplete(task.id);
   });
@@ -126,10 +137,10 @@ function render() {
     active + " task" + (active !== 1 ? "s" : "") + " left";
 }
 
-// ── ADD TASK ─────────────────────────────────────────────────
-function addTask(text) {
+// ── ADD TASK (includes due date) ─────────────────────────
+function addTask(text, dueDate) {
   if (!text) return;
-  const newTask = createTask(text);
+  const newTask = createTask(text, dueDate);
   tasks.unshift(newTask);
   saveTasks();
   render();
@@ -156,12 +167,14 @@ function toggleComplete(id) {
   }
 }
 
-// ── EVENTS ───────────────────────────────────────────────────
+// ── FORM SUBMIT (now includes due date) ───────────────────────
 taskForm.addEventListener("submit", function (event) {
   event.preventDefault();
   const text = taskInput.value.trim();
-  addTask(text);
+  const dueDate = dueDateInput.value; // empty string if not set
+  addTask(text, dueDate);
   taskInput.value = "";
+  dueDateInput.value = "";
 });
 
 filterBtns.forEach(function (btn) {

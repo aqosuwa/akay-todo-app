@@ -129,3 +129,10 @@ body {
   border-radius: 4px;
   outline: none;
 }
+/* ── DUE DATE DISPLAY ─────────────────────────────────────── */
+.due-date {
+  display: block;
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 2px;
+}
