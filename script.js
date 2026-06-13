@@ -54,6 +54,8 @@ function createTaskElement(task) {
   const li = document.createElement("li");
   li.className = "task-item" + (task.completed ? " completed" : "");
   li.dataset.id = task.id;
+  // Make the task draggable
+  li.draggable = true;
 
   // Priority dot — colored circle showing task priority
   const dot = document.createElement("span");
@@ -86,8 +88,21 @@ function createTaskElement(task) {
     deleteTask(task.id);
   });
 
+  li.appendChild(dot);
   li.appendChild(span);
   li.appendChild(deleteBtn);
+
+  // ── DRAG EVENTS ──────────────────────────────────────────
+  li.addEventListener("dragstart", function () {
+    li.classList.add("dragging");
+  });
+
+  li.addEventListener("dragend", function () {
+    li.classList.remove("dragging");
+    saveTasks();
+    render();
+  });
+
   return li;
 }
 
@@ -193,6 +208,34 @@ filterBtns.forEach(function (btn) {
     });
     this.classList.add("active");
     render();
+  });
+});
+
+// ── DRAG TO REORDER ──────────────────────────────────────────
+taskList.addEventListener("dragover", function (event) {
+  event.preventDefault();
+  const dragging = document.querySelector(".dragging");
+  const siblings = [...taskList.querySelectorAll(".task-item:not(.dragging)")];
+
+  // Find which task we're hovering over
+  const next = siblings.find(function (sibling) {
+    const box = sibling.getBoundingClientRect();
+    return event.clientY <= box.top + box.height / 2;
+  });
+
+  // Move the dragged item in the DOM
+  if (next) {
+    taskList.insertBefore(dragging, next);
+  } else {
+    taskList.appendChild(dragging);
+  }
+
+  // Update the tasks array to match the new DOM order
+  const newOrder = [...taskList.querySelectorAll(".task-item")];
+  tasks = newOrder.map(function (li) {
+    return tasks.find(function (t) {
+      return t.id === li.dataset.id;
+    });
   });
 });
 

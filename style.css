@@ -224,3 +224,13 @@ body.dark #priorityInput {
 .priority-dot.low {
   background: #0a0;
 }
+/* ── DRAG TO REORDER ──────────────────────────────────────── */
+.task-item.dragging {
+  opacity: 0.4;
+  border: 2px dashed #111;
+  border-radius: 8px;
+}
+
+body.dark .task-item.dragging {
+  border-color: #eee;
+}
