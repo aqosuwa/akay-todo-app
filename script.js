@@ -5,6 +5,7 @@ const dueDateInput = document.getElementById("dueDateInput");
 const taskList = document.getElementById("taskList");
 const taskCount = document.getElementById("taskCount");
 const emptyMsg = document.getElementById("emptyMsg");
+const filterBtns = document.querySelectorAll(".filter-btn");
 const themeToggle = document.getElementById("themeToggle");
 
 // ── DATA ─────────────────────────────────────────────────────
