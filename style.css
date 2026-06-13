@@ -136,3 +136,57 @@ body {
   color: #999;
   margin-top: 2px;
 }
+/* ── DARK MODE ────────────────────────────────────────────── */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+body.dark {
+  background: #1a1a1a;
+}
+
+body.dark .app {
+  background: #2a2a2a;
+  color: #eee;
+}
+
+body.dark .app-header h1,
+body.dark .task-text {
+  color: #eee;
+}
+
+body.dark #taskCount,
+body.dark .due-date {
+  color: #aaa;
+}
+
+body.dark .add-form input,
+body.dark .filter-btn {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark .filter-btn.active {
+  background: #eee;
+  color: #111;
+  border-color: #eee;
+}
+
+body.dark .task-item {
+  border-bottom-color: #444;
+}
+
+body.dark .task-item.completed .task-text {
+  color: #777;
+}
+
+body.dark .edit-input {
+  background: #333;
+  color: #eee;
+  border-color: #eee;
+}

@@ -5,7 +5,7 @@ const dueDateInput = document.getElementById("dueDateInput");
 const taskList = document.getElementById("taskList");
 const taskCount = document.getElementById("taskCount");
 const emptyMsg = document.getElementById("emptyMsg");
-const filterBtns = document.querySelectorAll(".filter-btn");
+const themeToggle = document.getElementById("themeToggle");
 
 // ── DATA ─────────────────────────────────────────────────────
 let tasks = [];
@@ -186,6 +186,21 @@ filterBtns.forEach(function (btn) {
     this.classList.add("active");
     render();
   });
+});
+
+// ── DARK MODE ────────────────────────────────────────────────
+// Load saved theme preference
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+  themeToggle.textContent = "☀️";
+}
+
+// Toggle dark mode on button click
+themeToggle.addEventListener("click", function () {
+  document.body.classList.toggle("dark");
+  const isDark = document.body.classList.contains("dark");
+  themeToggle.textContent = isDark ? "☀️" : "🌙";
+  localStorage.setItem("theme", isDark ? "dark" : "light");
 });
 
 // ── STARTUP ──────────────────────────────────────────────────
