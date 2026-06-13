@@ -58,6 +58,10 @@ function createTaskElement(task) {
     toggleComplete(task.id);
   });
 
+  span.addEventListener("dblclick", function () {
+    editTask(task.id, span);
+  });
+
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-btn";
   deleteBtn.textContent = "✕";
@@ -68,6 +72,42 @@ function createTaskElement(task) {
   li.appendChild(span);
   li.appendChild(deleteBtn);
   return li;
+}
+
+// ── EDIT TASK ────────────────────────────────────────────────
+function editTask(id, span) {
+  const task = tasks.find(function (t) {
+    return t.id === id;
+  });
+  if (!task) return;
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = task.text;
+  input.className = "edit-input";
+
+  span.replaceWith(input);
+  input.focus();
+
+  function save() {
+    const newText = input.value.trim();
+    if (newText) {
+      task.text = newText;
+      saveTasks();
+    }
+    render();
+  }
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      save();
+    }
+    if (event.key === "Escape") {
+      render();
+    }
+  });
+
+  input.addEventListener("blur", save);
 }
 
 // ── RENDER ───────────────────────────────────────────────────
