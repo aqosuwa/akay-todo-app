@@ -35,9 +35,11 @@ body {
 }
 .add-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 16px;
 }
+
 .add-form input {
   flex: 1;
   padding: 10px 14px;
